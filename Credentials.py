@@ -1,19 +1,30 @@
 from cryptography.fernet import Fernet
 
-with open("fertnet.key", "rb") as keyFile:
-    key = keyFile.read()
+#Credentials dictionary
+credentials = {"host": "",
+               "user": "",
+               "password": "",
+               "database": ""
+               }
 
-cipher = Fernet(key)
+#Main loop for collect credentials data
+def credentialsCollect():
+    for key in credentials:
+        credentials[key] = input(f"Insert the {key}: ")
+    encryptCredentials()
 
-dbHost = cipher.encrypt(b"localhost")
-dbUser = cipher.encrypt(b"use")
-dbPass = cipher.encrypt(b"password")
-dbName = cipher.encrypt(b"database")
+#Loop for encrypt and save credentials
+def encryptCredentials():
+    with open("fertnet.key", "rb") as keyFile:
+        key = keyFile.read()
 
-with open ("db_safeCredentials.txt", "wb") as safeCredentials:
-    safeCredentials.write(dbHost + b"\n")
-    safeCredentials.write(dbUser + b"\n")
-    safeCredentials.write(dbPass + b"\n")
-    safeCredentials.write(dbName + b"\n")
+    cipher = Fernet(key)
 
-print("Safe credentials are created!")
+
+    with open ("db_safeCredentials.txt", "wb") as safeCredentials:
+        for field in credentials:
+            encrypted =  cipher.encrypt(credentials[field].encode())
+            safeCredentials.write(encrypted + b"\n")
+
+
+    print("Safe credentials are created!")
