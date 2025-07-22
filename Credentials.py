@@ -15,7 +15,7 @@ def credentialsCollect():
 
 #Loop for encrypt and save credentials
 def encryptCredentials():
-    with open("fertnet.key", "rb") as keyFile:
+    with open("fernet.key", "rb") as keyFile:
         key = keyFile.read()
 
     cipher = Fernet(key)
