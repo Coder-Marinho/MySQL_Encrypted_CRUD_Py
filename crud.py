@@ -1,17 +1,31 @@
 from tkinter.constants import INSERT
-
 from cryptography.fernet import Fernet
 
 #Call others files for they function
 import Credentials
-import Key_import
+from Key_import import generateKey
+import os
 
 #Open the file contain the key for read
-with open("fernet.key", "rb") as keyFile:
-   key = keyFile.read()
+def openKey():
+    with open("fernet.key", "rb") as keyFile:
+        key = keyFile.read()
+    print("Key was founded.")
+    return key
+
+if os.path.exists("fernet.key"):
+    openKey()
+else:
+    print("Key file was not founded\n")
+    print("Creating a new key file\n")
+    generateKey()
 
 #Atributte the key for "cipher" variable
 cipher = Fernet(key)
+
+Credentials.credentialsCollect()
+
+connectionDb = mysql.connector.connect(**encripted)
 
 #Function for data encryption
 def encryptData(data):
@@ -29,5 +43,6 @@ def safeData():
 
 def createUser():
     name, email = safeData()
-    sql = INSERT INTO
+    sql = "INSERT INTO users (name, email) VALUES (%s, %s)"
+    cursor.execute(sql, (name, email))
 
