@@ -1,11 +1,12 @@
 #Fernet criptography library
 from cryptography.fernet import Fernet
 
+def generateKey():
 #Variable to receive the Fernet key
-key = Fernet.generate_key()
+    key = Fernet.generate_key()
 
 #Write the key in key archive
-with open("fernet.key", "wb") as keyFile:
-    keyFile.write(key)
+    with open("fernet.key", "wb") as keyFile:
+        keyFile.write(key)
 
-print("Your key was been saved")
+    print("Your key was been saved")
